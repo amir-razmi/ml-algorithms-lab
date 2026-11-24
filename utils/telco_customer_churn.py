@@ -40,7 +40,11 @@ YES_NO_MAP = {
   "No phone service": 0,
 }
 
-yes_no_transformer = FunctionTransformer(lambda X: X.apply(lambda col: col.map(YES_NO_MAP)).astype(int))
+yes_no_transformer = FunctionTransformer(
+  lambda X: X.apply(lambda col: col.map(YES_NO_MAP)).astype(int), 
+  feature_names_out='one-to-one'
+)
+
 binary_cols = [
   "Partner",
   "Dependents",
@@ -73,3 +77,5 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 X_train = column_transformer.fit_transform(X_train)
 X_test = column_transformer.transform(X_test)
+
+column_names = column_transformer.get_feature_names_out()
